@@ -18,6 +18,10 @@ inputField.addEventListener("keypress", function (e) {
 
 function addTodoItem(text) {
   const li = document.createElement("li");
+  // 할 일 항목에 고유한 ID 할당
+  li.id = `todo-${Date.now()}`;
+  // 항목을 드래그 가능하게 설정
+  li.setAttribute("draggable", true);
   // 할 일 텍스트를 표시하는 span 요소
   const span = document.createElement("span");
   span.textContent = text;
@@ -33,11 +37,6 @@ function addTodoItem(text) {
       span.classList.remove("completed");
     }
   });
-
-  /*   // 할 일 항목을 클릭했을 때 완료 상태 토글
-  span.addEventListener("click", function () {
-    span.classList.toggle("completed");
-  }); */
 
   // 삭제 버튼
   const deleteButton = document.createElement("button");
@@ -55,6 +54,31 @@ function addTodoItem(text) {
       span.textContent = newText;
     }
   };
+
+  // 드래그 시작 이벤트 리스너
+  li.addEventListener("dragstart", function (e) {
+    e.dataTransfer.setData("text/plain", e.target.id);
+  });
+
+  // 드래그 중인 항목이 드롭 가능한 영역 위에 있을 때
+  li.addEventListener("dragover", function (e) {
+    e.preventDefault(); // 기본 동작을 방지하여 드롭을 허용
+  });
+
+  // 항목을 드롭했을 때의 처리
+  li.addEventListener("drop", function (e) {
+    e.preventDefault(); // 기본 동작 방지
+    const id = e.dataTransfer.getData("text/plain");
+    const draggedElement = document.getElementById(id);
+    const dropZone = e.target;
+    if (draggedElement && dropZone && draggedElement !== dropZone) {
+      // 드래그된 요소를 새 위치에 삽입
+      const temp = document.createElement("div");
+      dropZone.before(temp);
+      draggedElement.before(dropZone);
+      temp.replaceWith(draggedElement);
+    }
+  });
 
   li.appendChild(checkbox);
   li.appendChild(span);

@@ -61,18 +61,24 @@ html {
   align-items: center;
 }
 
-.delete-todo {
-  background-color: #ff4d4d;
+.btnDiv {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn {
+  background-color: #007bff;
   border: none;
   color: white;
   padding: 5px 10px;
-  border-radius: 50%;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.delete-todo:hover {
-  background-color: #cc0000;
+.btn:hover {
+  background-color: #0056b3;
 }
 
 .completed {

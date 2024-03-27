@@ -41,9 +41,14 @@ function addTodoItem(text) {
     }
   });
 
+  // 버튼들을 담을 div 생성
+  const buttonsDiv = document.createElement("div");
+  buttonsDiv.classList.add("btnDiv");
+
   // 삭제 버튼
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
+  deleteButton.classList.add("btn");
   deleteButton.onclick = function () {
     li.remove();
   };
@@ -51,6 +56,7 @@ function addTodoItem(text) {
   // 편집 버튼
   const editButton = document.createElement("button");
   editButton.textContent = "Edit";
+  editButton.classList.add("btn");
   editButton.onclick = function () {
     const newText = prompt("Edit your todo", span.textContent);
     if (newText) {
@@ -58,15 +64,21 @@ function addTodoItem(text) {
     }
   };
 
+  // 버튼들을 div에 추가
+  buttonsDiv.appendChild(deleteButton);
+  buttonsDiv.appendChild(editButton);
+
   // 드래그 앤 드롭 기능 설정을 위한 함수 호출
   setDraggableEvents(li);
 
   li.appendChild(checkbox);
   li.appendChild(span);
-  li.appendChild(deleteButton);
-  li.appendChild(editButton);
+  // 버튼 그룹(div)을 li에 추가
+  li.appendChild(buttonsDiv);
   todoList.appendChild(li);
 }
+
+let draggedItem = null; // 전역 변수로 선언
 
 function setDraggableEvents(item) {
   item.addEventListener("dragstart", function () {
